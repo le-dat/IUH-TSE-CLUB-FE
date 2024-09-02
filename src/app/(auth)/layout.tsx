@@ -1,14 +1,13 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
 
-import Intro from '@/components/ui/intro'
-import Background from '@/images/auth/background.webp'
+import BackgroundGif from '@/images/auth/background.gif'
 
 export const metadata: Metadata = {
-  title: 'Everyone needs a place to be in Beicom',
-  description: 'Everyone needs a place to be in Beicom.',
+  title: 'Dashboard',
+  description: 'Best admin page for managing the dashboard.',
   icons: {
-    icon: '/images/logo-mini.webp',
+    icon: '/images/logo.svg',
   },
 }
 
@@ -18,16 +17,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <main className='font-inter xs:h-auto relative flex h-dvh min-h-full w-full items-center justify-center overflow-auto overflow-x-hidden bg-purple-600 p-8'>
-      <Image
-        src={Background}
-        alt='Auth image'
-        fill
-        draggable={false}
-        className='absolute inset-0 z-0 rounded-l-xl object-fill'
-      />
-      <Intro />
-      {children}
+    <main className='font-inter xs:h-auto relative grid h-dvh min-h-full w-full grid-cols-2 overflow-auto overflow-x-hidden bg-gray p-8'>
+      <div className='flex items-center justify-center'>
+        <Image src={BackgroundGif} alt='Auth image' draggable={false} className='relative z-[1] rounded-lg shadow-xl' />
+      </div>
+      <div className='flex items-center justify-center'>{children}</div>
     </main>
   )
 }

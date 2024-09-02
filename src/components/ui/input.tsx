@@ -20,11 +20,11 @@ const InputWrapper: React.FC<{
   children: React.ReactNode
 }> = ({ id, errorMessage, children }) => (
   <div className='relative flex flex-col'>
-    <div className='relative flex h-10 w-full cursor-text items-center justify-between rounded-md border bg-white text-base focus-within:border-purple-50 focus:border-purple-50 focus-visible:border-purple-50'>
+    <div className='relative flex h-12 w-full cursor-text items-center justify-between rounded-lg border-2 border-gray-200 bg-white text-base transition-all duration-300 focus-within:border-purple-500 focus-within:shadow-md hover:border-purple-300'>
       {children}
     </div>
     {errorMessage && (
-      <span className='mt-1 text-sm text-red-600' id={`${id}-error`}>
+      <span className='mt-2 text-sm font-medium text-red-500' id={`${id}-error`}>
         {errorMessage}
       </span>
     )}
@@ -41,7 +41,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
         name={name}
         aria-describedby={`${id}-description`}
         aria-invalid={!!errorMessage}
-        className='block h-full w-full px-3 py-2 text-base font-normal text-[rgb(68,79,142)] placeholder:text-base placeholder:font-normal read-only:cursor-default focus-visible:outline-none disabled:font-normal'
+        className='block h-full w-full rounded-lg px-4 py-3 text-base font-medium text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 disabled:bg-gray-100 disabled:text-gray-500'
         {...props}
       />
     </InputWrapper>
@@ -68,22 +68,20 @@ const InputFieldPw = forwardRef<HTMLInputElement, InputFieldProps>(
           name={name}
           aria-describedby={`${id}-description`}
           aria-invalid={!!errorMessage}
-          className='block h-full w-full px-3 py-2 text-base font-normal placeholder:text-base placeholder:font-normal read-only:cursor-default focus-visible:outline-none disabled:font-normal'
+          className='block h-full w-full rounded-lg px-4 py-3 pr-12 text-base font-medium text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 disabled:bg-gray-100 disabled:text-gray-500'
           {...props}
         />
         <button
           type='button'
           onClick={toggleShowPassword}
-          className='absolute right-3 top-1/2 flex -translate-y-1/2 items-center space-x-1 text-[rgb(68,79,142)]'
+          className='absolute right-3 top-1/2 -translate-y-1/2 transform'
         >
-          <div className='flex cursor-pointer items-center justify-center'>
-            <Image
-              src={showPassword ? HidePwIcon : ShowPwIcon}
-              draggable={false}
-              alt='show-pw-icon'
-              className='h-6 w-[25px]'
-            />
-          </div>
+          <Image
+            src={showPassword ? HidePwIcon : ShowPwIcon}
+            draggable={false}
+            alt='Toggle password visibility'
+            className='h-6 w-6 text-gray-500 transition-colors duration-200 hover:text-purple-500'
+          />
         </button>
       </InputWrapper>
     )

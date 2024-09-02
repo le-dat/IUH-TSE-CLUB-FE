@@ -6,52 +6,42 @@ import { FORM_SIGN_AUTH } from '@/constants/form'
 import { InputField, InputFieldPw } from './input'
 import Label from './label'
 
-const EmailInput: React.FC<{ errors: any }> = ({ errors }) => {
+interface InputProps {
+  errors: any
+  id: string
+  label: string
+  placeholder: string
+  type?: 'text' | 'password'
+}
+
+const FormInput: React.FC<InputProps> = ({ errors, id, label, placeholder, type = 'text' }) => {
   const { register } = useFormContext()
+  const InputComponent = type === 'password' ? InputFieldPw : InputField
 
   return (
     <div className='space-y-1'>
-      <Label htmlFor={FORM_SIGN_AUTH.email}>Email</Label>
-      <InputField
-        id={FORM_SIGN_AUTH.email}
-        placeholder='Your email'
-        {...register(FORM_SIGN_AUTH.email)}
-        errorMessage={errors[FORM_SIGN_AUTH.email]?.message}
-      />
+      <Label htmlFor={id}>{label}</Label>
+      <InputComponent id={id} placeholder={placeholder} {...register(id)} errorMessage={errors[id]?.message} />
     </div>
   )
 }
 
-const PasswordInput: React.FC<{ errors: any }> = ({ errors }) => {
-  const { register } = useFormContext()
+const EmailInput: React.FC<{ errors: any }> = ({ errors }) => (
+  <FormInput errors={errors} id={FORM_SIGN_AUTH.email} label='Email' placeholder='Your email' />
+)
 
-  return (
-    <div className='space-y-1'>
-      <Label htmlFor={FORM_SIGN_AUTH.password}>Password</Label>
-      <InputFieldPw
-        id={FORM_SIGN_AUTH.password}
-        placeholder='Your password'
-        {...register(FORM_SIGN_AUTH.password)}
-        errorMessage={errors[FORM_SIGN_AUTH.password]?.message}
-      />
-    </div>
-  )
-}
+const PasswordInput: React.FC<{ errors: any }> = ({ errors }) => (
+  <FormInput
+    errors={errors}
+    id={FORM_SIGN_AUTH.password}
+    label='Password'
+    placeholder='Your password'
+    type='password'
+  />
+)
 
-const TextInput: React.FC<{ errors: any }> = ({ errors }) => {
-  const { register } = useFormContext()
-
-  return (
-    <div className='space-y-1'>
-      <Label htmlFor={FORM_SIGN_AUTH.name}>Name</Label>
-      <InputField
-        id={FORM_SIGN_AUTH.name}
-        placeholder='Your name'
-        {...register(FORM_SIGN_AUTH.name)}
-        errorMessage={errors[FORM_SIGN_AUTH.email]?.message}
-      />
-    </div>
-  )
-}
+const TextInput: React.FC<{ errors: any }> = ({ errors }) => (
+  <FormInput errors={errors} id={FORM_SIGN_AUTH.name} label='Name' placeholder='Your name' />
+)
 
 export { EmailInput, PasswordInput, TextInput }

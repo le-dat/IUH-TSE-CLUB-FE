@@ -17,16 +17,15 @@ const ibmPlexSerif = IBM_Plex_Serif({
 })
 
 export const metadata: Metadata = {
-  title: 'Beincom Social',
-  description: 'Everyone needs a place to be in Beicom.',
-  manifest: '/manifest.json',
+  title: 'Dashboard',
+  description: 'Best admin page for managing the dashboard.',
   icons: {
-    icon: '/images/logo-mini.webp',
+    icon: '/images/logo.svg',
   },
   openGraph: {
-    title: 'Beincom Social',
-    description: 'Everyone needs a place to be in Beicom.',
-    siteName: 'Beincom Social',
+    title: 'Dashboard',
+    description: 'Best admin page for managing the dashboard.',
+    siteName: 'Dat Dashboard',
   },
 }
 

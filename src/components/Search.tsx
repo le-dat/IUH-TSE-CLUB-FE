@@ -11,12 +11,11 @@ const Search = () => {
   const id = useId()
   const searchParams = useSearchParams()
   const { pushParamsToUrl } = usePushParams()
-
   const [value, setValue] = useState<string>('')
   const isExistValue = value?.trim()?.length > 0
-
   const boxRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
+
   useClickOutside(boxRef, () => setIsOpen(false))
 
   const handleResetValue = () => setValue('')
@@ -33,11 +32,9 @@ const Search = () => {
 
   return (
     <div className='relative w-full'>
-      <div
-        className={`relative flex h-10 min-w-[40px] flex-1 items-center justify-start gap-x-2 rounded-lg border bg-white before:w-1 before:flex-initial before:content-[''] focus-within:border-primary hover:border-primary`}
-      >
-        <label htmlFor={id} className='text-[rgba(68,79,142)]'>
-          <SearchIcon className='size-[20px]' />
+      <div className='group relative flex h-12 items-center overflow-hidden rounded-full border-2 border-gray-200 bg-white transition-all duration-300 focus-within:border-primary hover:border-primary hover:shadow-md'>
+        <label htmlFor={id} className='ml-4 text-gray-400 transition-colors group-hover:text-primary'>
+          <SearchIcon className='h-5 w-5' />
         </label>
         <input
           id={id}
@@ -47,14 +44,14 @@ const Search = () => {
           onClick={() => setIsOpen(true)}
           onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
           placeholder='Search Content'
-          className='disabled:text-neutral-20 block h-full w-full bg-transparent pr-2 text-sm font-normal text-[rgba(46,54,96)] outline-none placeholder:text-sm placeholder:text-[rgba(179,185,218)] placeholder-shown:truncate focus:border-primary disabled:cursor-not-allowed'
+          className='h-full w-full bg-transparent px-3 text-sm font-medium text-gray-700 outline-none placeholder:text-gray-400'
         />
         {isExistValue && (
           <button
             onClick={handleResetValue}
-            className='absolute right-2 top-1/2 -translate-y-1/2 transform rounded-full bg-slate-100 p-1'
+            className='mr-2 rounded-full bg-gray-100 p-1.5 text-gray-400 transition-colors hover:bg-gray-200 hover:text-gray-600'
           >
-            <CloseIcon />
+            <CloseIcon className='h-4 w-4' />
           </button>
         )}
       </div>
@@ -62,11 +59,11 @@ const Search = () => {
       {isOpen && (
         <div
           ref={boxRef}
-          className='absolute left-1/2 top-[120%] z-[1] w-[370px] -translate-x-1/2 transform rounded-md border bg-white p-[1rem] text-[rgba(46,54,96)] shadow-xl'
+          className='absolute left-1/2 top-[120%] z-10 w-[370px] -translate-x-1/2 transform rounded-lg border bg-white p-4 shadow-xl'
         >
-          <div className='flex h-10 items-center justify-between p-2'>
-            <span className='text-neutral-60 text-base font-semibold'>Recent searches</span>
-            <span className='cursor-pointer text-sm font-semibold text-blue-500 hover:underline'>Clear all</span>
+          <div className='flex items-center justify-between'>
+            <span className='text-base font-semibold text-gray-700'>Recent searches</span>
+            <button className='text-sm font-medium text-blue-500 hover:text-blue-600 hover:underline'>Clear all</button>
           </div>
         </div>
       )}

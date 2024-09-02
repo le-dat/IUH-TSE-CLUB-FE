@@ -1,52 +1,79 @@
 'use client'
-import { useEffect, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { useInView } from 'react-intersection-observer'
 
-import Post from '@/components/Post'
-import Loading from '@/components/ui/loading'
-import postService from '@/service/post.service'
-import { usePostStore } from '@/store/post.store'
+import { ArcElement, BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title, Tooltip } from 'chart.js'
+import { Bar, Doughnut } from 'react-chartjs-2'
 
-export default function Home() {
-  const { ref, inView } = useInView()
-  const { posts, addToListPost } = usePostStore()
-  const [page, setPage] = useState(1)
+ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend)
 
-  const { isLoading, refetch } = useQuery({
-    queryKey: [`post-${page}`],
-    queryFn: () => postService.getAllPosts({ page: page }),
-    enabled: false,
-  })
+const Dashboard = () => {
+  const barChartData = {
+    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    datasets: [
+      {
+        label: 'Tasks Completed',
+        data: [12, 19, 3, 5, 2, 3, 9],
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+      },
+      {
+        label: 'Tasks Created',
+        data: [15, 12, 6, 8, 3, 3, 7],
+        backgroundColor: 'rgba(153, 102, 255, 0.6)',
+        borderColor: 'rgba(153, 102, 255, 1)',
+        borderWidth: 1,
+      },
+    ],
+  }
 
-  useEffect(() => {
-    if (inView) {
-      // Add a delay of 500 milliseconds
-      const delay = 500
+  const doughnutChartData = {
+    labels: ['Completed', 'In Progress', 'Not Started'],
+    datasets: [
+      {
+        data: [300, 50, 100],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+      },
+    ],
+  }
 
-      const timeoutId = setTimeout(() => {
-        refetch().then((result) => {
-          if (result.data) {
-            addToListPost(result.data?.posts)
-            setPage((prevPage) => prevPage + 1)
-          }
-        })
-      }, delay)
+  const barOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Weekly Task Overview',
+      },
+    },
+  }
 
-      // Clear the timeout if the component is unmounted or inView becomes false
-      return () => clearTimeout(timeoutId)
-    }
-  }, [inView, refetch, addToListPost])
+  const doughnutOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Task Status Distribution',
+      },
+    },
+  }
 
   return (
-    <main className='grid w-screen grid-cols-1 gap-x-6 px-5 py-10 pt-0 lg:grid-cols-[1fr_1.5fr_1fr] xl:gap-x-12 xl:px-11'>
-      <div />
-      <div className='flex flex-col gap-y-4'>
-        {posts?.map((post, index) => <Post key={index} data={post} />)}
-        <section className='flex w-full items-center justify-center'>
-          <div ref={ref}>{inView && isLoading && <Loading />}</div>
-        </section>
+    <div className='mx-auto w-full max-w-4xl p-4'>
+      <h1 className='mb-4 text-2xl font-bold'>Dashboard</h1>
+      <div className='mb-8 rounded-lg bg-white p-6 shadow-md'>
+        <Bar data={barChartData} options={barOptions} />
       </div>
-    </main>
+      <div className='rounded-lg bg-white p-6 shadow-md'>
+        <Doughnut data={doughnutChartData} options={doughnutOptions} />
+      </div>
+    </div>
   )
 }
+
+export default Dashboard
