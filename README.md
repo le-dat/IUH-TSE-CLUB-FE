@@ -11,14 +11,14 @@
 - Option 1: I have deployed the backend, so you can still use it without changing this file.
 
 ```bash
-   NEXT_PUBLIC_API_ENDPOINT="https://beincom-social-service-1.onrender.com/api"
+   NEXT_PUBLIC_API_ENDPOINT="https://dashboard-server-c814.onrender.com/api"
 
 ```
 
 Sometime my backend is not available, so you need to install it manually with option 2
 
 - Option 2 (Run local) :
-  Clone and run this back-end: [https://github.com/le-dat/beincom-social-service](https://github.com/le-dat/beincom-social-service) for this project and update ` .env.development` file
+  Clone and run this back-end: [https://github.com/le-dat/dashboard-server](https://github.com/le-dat/dashboard-server) for this project and update ` .env.development` file
 
 ```bash
     NEXT_PUBLIC_API_ENDPOINT="http://localhost:4000/api"
@@ -43,15 +43,11 @@ Run the following command at the root path of the project
 
 ## 🔑 Key Features
 
-- Beincom social
+- Dat Dashboard
 
-  - Authentication: Sign-up, login, and logout functionality. Only authenticated users should be able to view posts.
-  - Commenting System: Click comment. Only authenticated users can leave comments on a post.
-  - Search: Search for posts by title or content.
-  - Filter: Filter option to sort posts based on date or number of comments on the detail post (click comment button).
-  - Pagination: When the user scrolls down, fetch API to add posts to the store by page (Home page)
-  - Responsive Design: Ensure the design is responsive for both desktop and mobile devices.
-  - Testing: Test functions using Jest.
+  - Authentication: Sign-up, login, and logout functionality. Only authenticated users should be able to view access dashboard.
+  - CRUD user managerment
+  - Responsive for Mobile and PC
 
 ## 🛠️ Tech Stack
 
@@ -69,7 +65,7 @@ Run the following command at the root path of the project
 ## 📁 Structure
 
 ```plaintext
-BEIN-COM/
+DAT-DASHBOARD/
 │
 ├── .__tests__/
 ├── .env/
@@ -81,7 +77,6 @@ BEIN-COM/
 │   ├── app/
 │   ├── components/
 │   ├── constants/
-│   ├── hooks/
 │   ├── hooks/
 │   ├── provider/
 │   ├── service/
