@@ -61,7 +61,7 @@ const Register = () => {
         </div>
 
         <div className='space-y-6'>
-          <TextInput id={FORM_SIGN_AUTH.name} label='Email' placeholder='Enter your name' errors={errors} />
+          <TextInput id={FORM_SIGN_AUTH.name} label='Name' placeholder='Enter your name' errors={errors} />
           <EmailInput id={FORM_SIGN_AUTH.email} label='Email' placeholder='Enter your email' errors={errors} />
           <PasswordInput
             id={FORM_SIGN_AUTH.password}
@@ -102,7 +102,7 @@ const Register = () => {
         <div className='mt-8 text-center'>
           <p className='text-gray-600'>
             Already have an account?{' '}
-            <Link href={ROUTES.LOGIN} className='text-primary hover:underline'>
+            <Link href={ROUTES.LOGIN} className='font-bold text-primary hover:underline'>
               Login
             </Link>
           </p>

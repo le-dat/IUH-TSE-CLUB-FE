@@ -1,5 +1,10 @@
 ## 🚀 Getting Started
 
+#### Introduction
+
+1. You need to create your account by registering => https://le-quoc-dat-frontend-web-app.vercel.app/register
+2. Then login to use this app => https://le-quoc-dat-frontend-web-app.vercel.app/login
+
 #### ⚙️ Prepare the environment
 
 1. Make sure you have [Node.js](https://nodejs.org/) installed, preferably with [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/). Ensure that your Node.js version is **20.0.0 or higher**.
@@ -47,7 +52,6 @@ Run the following command at the root path of the project
 
   - Authentication: Sign-up, login, and logout functionality. Only authenticated users should be able to view access dashboard.
   - CRUD user managerment
-  - Responsive for Mobile and PC
 
 ## 🛠️ Tech Stack
 

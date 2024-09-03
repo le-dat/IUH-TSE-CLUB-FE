@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <main className='font-inter xs:h-auto relative grid h-dvh min-h-full w-full grid-cols-2 overflow-auto overflow-x-hidden bg-gray p-8'>
+    <main className='font-inter xs:h-auto relative grid h-dvh min-h-full w-full grid-cols-1 overflow-auto overflow-x-hidden bg-gray p-8 lg:grid-cols-2'>
       <div className='flex items-center justify-center'>
         <Image src={BackgroundGif} alt='Auth image' draggable={false} className='relative z-[1] rounded-lg shadow-xl' />
       </div>

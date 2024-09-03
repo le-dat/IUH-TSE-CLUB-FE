@@ -14,6 +14,8 @@ import authService from '@/service/auth.service'
 import { useUserStore } from '@/store/user.store'
 import { TokenStorage } from '@/utils/local-storage'
 
+import Button from './ui/button'
+
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const pathname = usePathname()
@@ -42,7 +44,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`bg-banner flex h-screen flex-col gap-3 bg-primary px-2 text-white transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-[260px]'} relative rounded-r-2xl shadow-lg`}
+      className={`bg-banner hidden h-screen flex-col gap-3 bg-primary px-2 text-white transition-all duration-300 lg:flex ${isCollapsed ? 'w-16' : 'w-[260px]'} relative rounded-r-2xl shadow-lg`}
     >
       <div className='flex items-center justify-between px-2 py-4'>
         <div className='flex items-center'>
@@ -51,9 +53,9 @@ const Sidebar = () => {
             {!isCollapsed && <div className='text-xl font-semibold italic'>DatBoard</div>}
           </Link>
         </div>
-        <button onClick={() => setIsCollapsed(!isCollapsed)} className='rounded-full p-2 hover:bg-secondary'>
+        <Button onClick={() => setIsCollapsed(!isCollapsed)} className='rounded-full p-2 hover:bg-secondary'>
           <FiMenu />
-        </button>
+        </Button>
       </div>
 
       <nav className='overflow-y-auto overflow-x-hidden'>
@@ -72,7 +74,7 @@ const Sidebar = () => {
             </li>
           ))}
           <li>
-            <button
+            <Button
               onClick={handleLogout}
               className='flex w-full items-center gap-4 rounded-lg px-3 py-4 hover:bg-secondary'
             >
@@ -80,7 +82,7 @@ const Sidebar = () => {
                 <FiLogOut />
               </div>
               {!isCollapsed && <span className='transition-opacity duration-300'>Logout</span>}
-            </button>
+            </Button>
           </li>
         </ul>
       </nav>

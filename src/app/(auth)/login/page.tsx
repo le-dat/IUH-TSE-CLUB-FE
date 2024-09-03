@@ -113,7 +113,7 @@ const Login = () => {
         <div className='mt-8 text-center'>
           <p className='text-gray-600'>
             Don&apos;t have an account?{' '}
-            <a href={ROUTES.REGISTER} className='text-primary hover:underline'>
+            <a href={ROUTES.REGISTER} className='font-bold text-primary hover:underline'>
               Sign up
             </a>
           </p>
