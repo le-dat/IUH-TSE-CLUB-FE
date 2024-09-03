@@ -1,11 +1,18 @@
 /* eslint-disable no-unused-vars */
+'use client'
+
 import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { FormProvider, useForm } from 'react-hook-form'
 import { FiPlus } from 'react-icons/fi'
 import { toast } from 'sonner'
 
 import Button from '@/components/ui/button'
 import Modal from '@/components/ui/modal'
+import { FORM_SIGN_AUTH } from '@/constants/form'
+import { validationSignUpSchema } from '@/utils/validate'
+
+import { EmailInput, PasswordInput, TextInput } from './ui/form'
 
 interface CreateModalProps {
   isOpen: boolean
@@ -15,12 +22,16 @@ interface CreateModalProps {
 
 const CreateModal: React.FC<CreateModalProps> = ({ isOpen, onClose, onCreate }) => {
   const [isLoading, setIsLoading] = useState(false)
+
+  const methods = useForm({
+    resolver: yupResolver(validationSignUpSchema),
+  })
+
   const {
-    // register,
     handleSubmit,
-    // formState: { errors },
+    formState: { errors },
     reset,
-  } = useForm()
+  } = methods
 
   const onSubmit = async (data: any) => {
     setIsLoading(true)
@@ -43,48 +54,55 @@ const CreateModal: React.FC<CreateModalProps> = ({ isOpen, onClose, onCreate }) 
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title='Create New Item'>
-      <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
-        <div>
-          {/* <InputField
-            id='name'
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
+          <TextInput
+            id={FORM_SIGN_AUTH.name}
             label='Name'
-            {...register('name', { required: 'Name is required' })}
-            error={errors.name?.message}
-            className='w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-          /> */}
-        </div>
-        <div>
-          {/* <InputField
-            id='description'
-            label='Description'
-            {...register('description')}
-            className='w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-          /> */}
-        </div>
-        <div className='flex justify-end space-x-3'>
-          <Button
-            type='button'
-            onClick={onClose}
-            className='rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2'
-          >
-            Cancel
-          </Button>
-          <Button
-            type='submit'
-            disabled={isLoading}
-            className='inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-          >
-            {isLoading ? (
-              'Creating...'
-            ) : (
-              <>
-                <FiPlus className='mr-2' />
-                Create
-              </>
-            )}
-          </Button>
-        </div>
-      </form>
+            placeholder='Enter your name'
+            errors={errors}
+            {...methods.register(FORM_SIGN_AUTH.name)}
+          />
+          <EmailInput
+            id={FORM_SIGN_AUTH.email}
+            label='Email'
+            placeholder='Enter your email'
+            errors={errors}
+            {...methods.register(FORM_SIGN_AUTH.email)}
+          />
+          <PasswordInput
+            id={FORM_SIGN_AUTH.password}
+            label='Password'
+            placeholder='Enter your password'
+            errors={errors}
+            {...methods.register(FORM_SIGN_AUTH.password)}
+          />
+
+          <div className='flex justify-end space-x-3'>
+            <Button
+              type='button'
+              onClick={onClose}
+              className='rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2'
+            >
+              Cancel
+            </Button>
+            <Button
+              type='submit'
+              disabled={isLoading}
+              className='inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+            >
+              {isLoading ? (
+                'Creating...'
+              ) : (
+                <>
+                  <FiPlus className='mr-2' />
+                  Create
+                </>
+              )}
+            </Button>
+          </div>
+        </form>
+      </FormProvider>
     </Modal>
   )
 }

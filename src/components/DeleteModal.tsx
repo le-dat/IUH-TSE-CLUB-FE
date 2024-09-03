@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { FiAlertTriangle } from 'react-icons/fi'
 
@@ -13,7 +15,7 @@ interface DeleteModalProps {
 
 const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onClose, onDelete, itemName }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title='Confirm Deletion'>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <div className='flex flex-col items-center'>
         <FiAlertTriangle className='mb-4 text-5xl text-red-500' />
         <h3 className='mb-2 text-lg font-semibold text-gray-900'>Are you sure you want to delete this item?</h3>

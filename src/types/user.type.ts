@@ -4,7 +4,11 @@ export interface ITokens {
 }
 
 export interface IUser {
-  id: string
+  _id: string
   name: string
   email: string
+}
+
+export interface IUserWithPassword extends IUser {
+  password: string
 }

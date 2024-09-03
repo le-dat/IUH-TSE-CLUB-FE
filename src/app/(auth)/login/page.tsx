@@ -14,7 +14,7 @@ import { FORM_LOGIN_AUTH } from '@/constants/form'
 import { ROUTES } from '@/constants/routes'
 import authService from '@/service/auth.service'
 import { useUserStore } from '@/store/user.store'
-import { TokenStorage } from '@/utils/local-storage'
+import { setLocalStorage, TokenStorage } from '@/utils/local-storage'
 import { validationLoginSchema } from '@/utils/validate'
 
 const Login = () => {
@@ -44,8 +44,9 @@ const Login = () => {
       {
         onSuccess: (response) => {
           toast.success(response?.message)
-          setUser(response?.data?.user!)
           setIsAuthenticated(true)
+          setUser(response?.data?.user!)
+          setLocalStorage('user', response?.data?.user!)
           TokenStorage.setToken(response?.data?.tokens?.access_token!)
           TokenStorage.setRefreshToken(response?.data?.tokens?.refresh_token!)
           router.push(ROUTES.HOME)
@@ -68,8 +69,13 @@ const Login = () => {
         </div>
 
         <div className='space-y-6'>
-          <EmailInput errors={errors} />
-          <PasswordInput errors={errors} />
+          <EmailInput id={FORM_LOGIN_AUTH.email} label='Email' placeholder='Enter your email' errors={errors} />
+          <PasswordInput
+            id={FORM_LOGIN_AUTH.password}
+            label='Password'
+            placeholder='Enter your password'
+            errors={errors}
+          />
 
           <Button
             type='submit'

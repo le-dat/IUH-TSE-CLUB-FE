@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 
 import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { FiHome, FiLogOut, FiMenu, FiSettings, FiUsers } from 'react-icons/fi'
+import { FiHome, FiLogOut, FiMenu, FiUsers } from 'react-icons/fi'
 import { toast } from 'sonner'
 
 import { ROUTES } from '@/constants/routes'
@@ -24,7 +24,6 @@ const Sidebar = () => {
   const menuItems = [
     { icon: FiHome, label: 'Home', path: '/' },
     { icon: FiUsers, label: 'Users', path: '/users' },
-    { icon: FiSettings, label: 'Settings', path: '/settings' },
   ]
 
   const handleLogout = async () => {
@@ -43,7 +42,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`flex h-screen flex-col gap-3 bg-primary px-2 text-white transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-[260px]'} relative rounded-r-2xl shadow-lg`}
+      className={`bg-banner flex h-screen flex-col gap-3 bg-primary px-2 text-white transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-[260px]'} relative rounded-r-2xl shadow-lg`}
     >
       <div className='flex items-center justify-between px-2 py-4'>
         <div className='flex items-center'>
@@ -58,7 +57,7 @@ const Sidebar = () => {
       </div>
 
       <nav className='overflow-y-auto overflow-x-hidden'>
-        <ul>
+        <ul className='flex flex-col gap-y-1'>
           {menuItems.map((item, index) => (
             <li key={index}>
               <Link

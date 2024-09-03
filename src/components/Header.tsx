@@ -1,7 +1,9 @@
 'use client'
 
-import Account from './Account'
-import Search from './Search'
+import dynamic from 'next/dynamic'
+
+const Search = dynamic(() => import('./Search'), { ssr: false })
+const Account = dynamic(() => import('./Account'), { ssr: false })
 
 const Header = () => {
   return (

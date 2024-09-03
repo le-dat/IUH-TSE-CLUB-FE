@@ -61,9 +61,14 @@ const Register = () => {
         </div>
 
         <div className='space-y-6'>
-          <TextInput errors={errors} />
-          <EmailInput errors={errors} />
-          <PasswordInput errors={errors} />
+          <TextInput id={FORM_SIGN_AUTH.name} label='Email' placeholder='Enter your name' errors={errors} />
+          <EmailInput id={FORM_SIGN_AUTH.email} label='Email' placeholder='Enter your email' errors={errors} />
+          <PasswordInput
+            id={FORM_SIGN_AUTH.password}
+            label='Password'
+            placeholder='Enter your password'
+            errors={errors}
+          />
 
           <Button
             type='submit'

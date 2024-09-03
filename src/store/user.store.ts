@@ -1,26 +1,21 @@
 /* eslint-disable no-unused-vars */
 import { create } from 'zustand'
 
-import { TokenStorage } from '@/utils/local-storage'
-
-type User = {
-  id: string
-  name: string
-  email: string
-}
+import { IUser } from '@/types/user.type'
+import { getLocalStorage, TokenStorage } from '@/utils/local-storage'
 
 type State = {
-  user: User | null
+  user: IUser | null
   isAuthenticated: boolean
 }
 
 type Actions = {
-  setUser: (user: User | null) => void
+  setUser: (user: IUser | null) => void
   setIsAuthenticated: (isAuthenticated: boolean) => void
 }
 
 export const useUserStore = create<State & Actions>((set) => ({
-  user: null,
+  user: getLocalStorage('user'),
   setUser: (user) => set({ user }),
   isAuthenticated: !!TokenStorage.getAccessToken(),
   setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
