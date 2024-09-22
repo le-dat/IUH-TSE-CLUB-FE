@@ -7,7 +7,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <main className='font-inter flex bg-[rgb(234,237,242)]'>
+    <main className='font-inter flex w-full bg-[rgb(234,237,242)]'>
       <Sidebar />
       <div className='flex flex-1 flex-col gap-5'>
         <Header />
