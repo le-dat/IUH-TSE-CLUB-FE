@@ -12,7 +12,7 @@ import Modal from '@/components/ui/modal'
 import { FORM_SIGN_AUTH } from '@/constants/form'
 import { validationSignUpSchema } from '@/utils/validate'
 
-import { EmailInput, PasswordInput, TextInput } from './ui/form'
+import { EmailInput, PasswordInput, TextInput } from '../ui/form'
 
 interface CreateModalProps {
   isOpen: boolean

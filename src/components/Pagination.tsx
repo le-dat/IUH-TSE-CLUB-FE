@@ -83,7 +83,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
   }
 
   return (
-    <div className='flex items-center justify-center space-x-2 rounded-b-xl bg-white p-4 shadow-sm'>
+    <div className='flex items-center justify-center space-x-2 bg-white p-4 shadow-sm'>
       <Button
         onClick={handlePrevious}
         disabled={currentPage === 1}

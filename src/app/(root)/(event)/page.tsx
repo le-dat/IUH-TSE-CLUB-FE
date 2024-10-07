@@ -17,9 +17,9 @@ import userService from '@/service/user.service'
 import { useUserStore } from '@/store/user.store'
 import { IUser, IUserWithPassword } from '@/types/user.type'
 
-const CreateModal = lazy(() => import('@/components/CreateModal'))
-const EditModal = lazy(() => import('@/components/EditModal'))
-const DeleteModal = lazy(() => import('@/components/DeleteModal'))
+const CreateModal = lazy(() => import('@/components/modal/CreateModal'))
+const EditModal = lazy(() => import('@/components/modal/EditModal'))
+const DeleteModal = lazy(() => import('@/components/modal/DeleteModal'))
 
 const UserManager = () => {
   const { user: currentUser } = useUserStore()
@@ -85,7 +85,17 @@ const UserManager = () => {
 
   return (
     <div className='container mx-auto p-6'>
-      <h1 className='mb-6 text-[20px] font-semibold text-[#202124]'>User Manager</h1>
+      <div className='mb-6 flex w-full items-center justify-between'>
+        <h1 className='text-[20px] font-semibold text-[#202124]'>User Manager</h1>
+        <Button
+          onClick={handleAddUser}
+          className='ml-4 flex items-center rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-700'
+        >
+          <FaUserPlus className='mr-2' />
+          Add User
+        </Button>
+      </div>
+
       <div className='mb-6 flex items-center'>
         <div className='relative flex-grow'>
           <Label htmlFor='search' className='absolute left-3 top-1/2 z-[1] -translate-y-1/2 transform text-gray-400'>
@@ -100,13 +110,6 @@ const UserManager = () => {
             className='h-full w-full rounded-lg py-2 pl-10 pr-4 shadow-md focus:border-transparent focus:outline-none focus:ring-1 focus:ring-primary'
           />
         </div>
-        <Button
-          onClick={handleAddUser}
-          className='ml-4 flex items-center rounded-lg bg-green-500 px-4 py-2 text-white hover:bg-green-600'
-        >
-          <FaUserPlus className='mr-2' />
-          Add User
-        </Button>
       </div>
 
       <div className='mb-6 overflow-hidden rounded-t-xl shadow-md'>
