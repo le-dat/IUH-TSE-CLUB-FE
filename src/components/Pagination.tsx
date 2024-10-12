@@ -1,16 +1,18 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { twMerge } from 'tailwind-merge'
 
 import Button from './ui/button'
 
 interface PaginationProps {
   currentPage: number
   totalPages: number
+  className?: string
   onPageChange: (page: number) => void
 }
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
+const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, className, onPageChange }) => {
   const handlePrevious = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1)
@@ -83,7 +85,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
   }
 
   return (
-    <div className='flex items-center justify-center space-x-2 bg-white p-4 shadow-sm'>
+    <div className={twMerge('flex items-center justify-center space-x-2 bg-white p-4 shadow-sm', className)}>
       <Button
         onClick={handlePrevious}
         disabled={currentPage === 1}

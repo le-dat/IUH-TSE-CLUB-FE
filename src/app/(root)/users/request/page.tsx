@@ -4,32 +4,29 @@
 
 import { lazy, Suspense, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { FaUserPlus } from 'react-icons/fa'
-import { FiEdit2, FiTrash2 } from 'react-icons/fi'
+import { FaEye } from 'react-icons/fa'
+import { FiCheck, FiSearch, FiTrash2 } from 'react-icons/fi'
 import { toast } from 'sonner'
 
-import Filter from '@/components/Filter'
 import Pagination from '@/components/Pagination'
 import Button from '@/components/ui/button'
+import { InputField } from '@/components/ui/input'
+import Label from '@/components/ui/label'
 import Loading from '@/components/ui/loading'
 import userService from '@/service/user.service'
 import { useUserStore } from '@/store/user.store'
 import { IUser } from '@/types/user.type'
 
-const CreateModal = lazy(() => import('@/components/modal/CreateModal'))
-const EditModal = lazy(() => import('@/components/modal/EditModal'))
 const AcceptModal = lazy(() => import('@/components/modal/AcceptModal'))
 const DeleteModal = lazy(() => import('@/components/modal/DeleteModal'))
 
 const UserManager = () => {
   const { user: currentUser } = useUserStore()
   const [searchTerm, setSearchTerm] = useState<string>('')
-  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
   const [isApproveModalOpen, setIsApproveModalOpen] = useState<boolean>(false)
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
-  const [checkedUsers, setCheckedUsers] = useState<string[]>([])
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false)
+  const [checkedUsers, setCheckedUsers] = useState<IUser[]>([])
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: [`user-manager`],
@@ -42,9 +39,10 @@ const UserManager = () => {
       user.email.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  const handleEditUser = (user: IUser) => {
+  const handleApproveUser = (user: IUser) => {
+    console.log('Approve user:', user)
     setSelectedUser(user)
-    setIsEditModalOpen(true)
+    setIsApproveModalOpen(true)
   }
 
   const handleDeleteUser = (user: IUser) => {
@@ -56,13 +54,9 @@ const UserManager = () => {
     setIsDeleteModalOpen(true)
   }
 
-  const handleEdit = async (data: IUser) => {
+  const handleApproveOne = async (data: IUser) => {
     await userService.updateUser({ id: selectedUser?._id as string, email: data.email, name: data.name })
     await refetch()
-  }
-
-  const handleAddUser = () => {
-    setIsCreateModalOpen(true)
   }
 
   const handleApprove = async () => {
@@ -83,22 +77,25 @@ const UserManager = () => {
   }
 
   const handleDelete = async () => {
-    if (!selectedUser) return
+    if (!checkedUsers.length) {
+      toast.error('Please select at least one user')
+      return
+    }
     try {
-      const res = await userService.deleteUser({ id: selectedUser?._id })
+      // const res = await userService.deleteUsers({ ids: checkedUsers })
       await refetch()
-      setIsDeleteModalOpen(false)
       setCheckedUsers([])
-      toast.success(res?.message)
+      setIsDeleteModalOpen(false)
+      // toast.success(res?.message)
     } catch (error) {
-      console.error('Error deleting user:', error)
-      toast.error('Failed to delete user')
+      console.error('Error deleting users:', error)
+      toast.error('Failed to delete users')
     }
   }
 
   const handleCheckAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      setCheckedUsers(filteredUsers.filter((user) => user._id !== currentUser?._id).map((user) => user._id))
+      setCheckedUsers(filteredUsers.filter((user) => user._id !== currentUser?._id))
     } else {
       setCheckedUsers([])
     }
@@ -107,9 +104,9 @@ const UserManager = () => {
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>, user: IUser) => {
     const isChecked = e.target.checked
     if (isChecked) {
-      setCheckedUsers((prevState) => [...prevState, user._id])
+      setCheckedUsers((prevState) => [...prevState, user])
     } else {
-      setCheckedUsers((prevState) => prevState.filter((id) => id !== user._id))
+      setCheckedUsers((prevState) => prevState.filter((prevUser) => prevUser._id !== user._id))
     }
   }
 
@@ -118,15 +115,12 @@ const UserManager = () => {
       toast.error('Please select at least one user')
       return
     }
-    try {
-      // await userService.deleteUsers({ ids: checkedUsers })
-      await refetch()
-      setCheckedUsers([])
-      toast.success('Users deleted successfully')
-    } catch (error) {
-      console.error('Error deleting users:', error)
-      toast.error('Failed to delete users')
-    }
+    setIsDeleteModalOpen(true)
+  }
+
+  const handleAcceptAll = () => {
+    setCheckedUsers(filteredUsers.filter((user) => user._id !== currentUser?._id))
+    setIsApproveModalOpen(true)
   }
 
   if (isLoading) return <Loading size='large' className='mt-8' />
@@ -134,29 +128,45 @@ const UserManager = () => {
   return (
     <div className='container mx-auto p-6'>
       <div className='mb-6 flex w-full items-center justify-between gap-14'>
-        <h1 className='gradient-text text-[20px] font-semibold'>User Manager</h1>
+        <h1 className='gradient-text text-[20px] font-semibold'>User Request</h1>
 
         <div className='flex flex-1 items-center justify-center'>
           {checkedUsers.length > 0 ? (
-            <Button
-              onClick={handleDeleteAll}
-              className='flex items-center gap-2 rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-700'
-            >
-              <FiTrash2 />
-              Delete
-            </Button>
+            <div className='flex items-center gap-10'>
+              <Button
+                onClick={handleApprove}
+                className='flex items-center gap-2 rounded-lg bg-green-500 px-4 py-2 text-white hover:bg-green-700'
+              >
+                <FiCheck />
+                Accept All
+              </Button>
+              <Button
+                onClick={handleDeleteAll}
+                className='flex items-center gap-2 rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-700'
+              >
+                <FiTrash2 />
+                Delete All
+              </Button>
+            </div>
           ) : (
-            <Filter value={searchTerm} onChange={setSearchTerm} onTagSelect={() => {}} />
+            <div className='relative flex-grow'>
+              <Label
+                htmlFor='search'
+                className='absolute left-3 top-1/2 z-[1] -translate-y-1/2 transform text-gray-400'
+              >
+                <FiSearch />
+              </Label>
+              <InputField
+                id='search'
+                name='search'
+                placeholder='Search users...'
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className='h-full w-full rounded-lg py-2 pl-10 pr-4 shadow-md focus:border-transparent focus:outline-none focus:ring-1 focus:ring-primary'
+              />
+            </div>
           )}
         </div>
-
-        <Button
-          onClick={handleAddUser}
-          className='ml-4 flex items-center rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-700'
-        >
-          <FaUserPlus className='mr-2' />
-          Add User
-        </Button>
       </div>
       <div className='mb-4 overflow-hidden rounded-t-xl shadow-md'>
         <table className='min-w-full cursor-pointer bg-white'>
@@ -186,7 +196,7 @@ const UserManager = () => {
                     <input
                       type='checkbox'
                       onClick={(e) => e.stopPropagation()}
-                      checked={checkedUsers.includes(user._id)}
+                      checked={checkedUsers.includes(user)}
                       onChange={(e) => handleCheck(e, user)}
                       className='cursor-pointer'
                     />
@@ -199,10 +209,10 @@ const UserManager = () => {
                     {user._id !== currentUser?._id && (
                       <>
                         <Button
-                          onClick={() => handleEditUser(user)}
+                          onClick={() => handleApproveUser(user)}
                           className='mr-2 rounded-full bg-blue-500 p-2 text-white hover:bg-blue-600'
                         >
-                          <FiEdit2 />
+                          <FaEye />
                         </Button>
                         <Button
                           onClick={() => handleDeleteUser(user)}
@@ -222,21 +232,6 @@ const UserManager = () => {
       <Pagination currentPage={data?.currentPage} totalPages={data?.totalPages} onPageChange={() => {}} />
 
       <Suspense fallback={<Loading size='large' className='fixed inset-0 z-[100] bg-black/10' />}>
-        {isCreateModalOpen && (
-          <CreateModal
-            isOpen={isCreateModalOpen}
-            onClose={() => setIsCreateModalOpen(false)}
-            onCreate={handleAddUser}
-          />
-        )}
-        {isEditModalOpen && (
-          <EditModal
-            isOpen={isEditModalOpen}
-            onClose={() => setIsEditModalOpen(false)}
-            onSave={handleEdit}
-            initialData={selectedUser!}
-          />
-        )}
         {isApproveModalOpen && (
           <AcceptModal
             isOpen={isApproveModalOpen}

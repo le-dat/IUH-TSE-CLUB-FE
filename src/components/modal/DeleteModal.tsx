@@ -11,18 +11,18 @@ interface DeleteModalProps {
   onClose: () => void
   onDelete: () => void
   itemName: string
+  itemNumber?: number
 }
 
-const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onClose, onDelete, itemName }) => {
+const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onClose, onDelete, itemName, itemNumber }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className='flex flex-col items-center'>
         <FiAlertTriangle className='mb-4 text-5xl text-red-500' />
-        <h3 className='mb-2 text-lg font-semibold text-gray-900'>Are you sure you want to delete this item?</h3>
-        <p className='mb-6 text-center text-sm text-gray-500'>
-          You are about to delete &ldquo;<span className='font-medium'>{itemName}</span>&rdquo;. This action cannot be
-          undone.
-        </p>
+        <h3 className='mb-2 text-lg font-semibold text-gray-900'>
+          Are you sure you want to delete {itemNumber ? `${itemNumber} items` : `"${itemName}"`}
+        </h3>
+        <p className='mb-6 text-center text-sm text-gray-500'>This action cannot be undone.</p>
         <div className='flex w-full justify-center space-x-4'>
           <Button
             onClick={onClose}

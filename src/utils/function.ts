@@ -14,9 +14,4 @@ export const getLastWeek = () => {
   return lastWeek.toISOString().split('T')[0]
 }
 
-export const cn = (...classes: string[]) => {
-  const mergedClasses = classes.filter((cls, index, self) => self.indexOf(cls) === index)
-  return mergedClasses.join(' ')
-}
-
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))

@@ -64,13 +64,15 @@ const Dashboard = () => {
   }
 
   return (
-    <div className='mx-auto w-full max-w-4xl p-4'>
-      <h1 className='mb-4 text-2xl font-bold'>Dashboard</h1>
-      <div className='mb-8 rounded-lg bg-white p-6 shadow-md'>
-        <Bar data={barChartData} options={barOptions} />
-      </div>
-      <div className='rounded-lg bg-white p-6 shadow-md'>
-        <Doughnut data={doughnutChartData} options={doughnutOptions} />
+    <div className='mx-8'>
+      <h1 className='mb-4 text-2xl font-bold'>Analyst</h1>
+      <div className='grid grid-cols-2 gap-4'>
+        <div className='mb-8 rounded-lg bg-white p-6 shadow-md'>
+          <Bar data={barChartData} options={barOptions} />
+        </div>
+        <div className='rounded-lg bg-white p-6 shadow-md'>
+          <Doughnut data={doughnutChartData} options={doughnutOptions} />
+        </div>
       </div>
     </div>
   )

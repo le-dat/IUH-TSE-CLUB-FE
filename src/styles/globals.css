@@ -25,3 +25,15 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+
+.gradient-text {
+  background: linear-gradient(to right, #ff009a, #4932e9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-secondary-text {
+  background: linear-gradient(to right, #f7deec, #6cdddd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

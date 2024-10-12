@@ -14,7 +14,7 @@ const Search = () => {
   const [value, setValue] = useState<string>('')
   const isExistValue = value?.trim()?.length > 0
   const boxRef = useRef<HTMLDivElement>(null)
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
   useClickOutside(boxRef, () => setIsOpen(false))
 

@@ -16,7 +16,6 @@ import userService from '@/service/user.service'
 import { useUserStore } from '@/store/user.store'
 import { IUser } from '@/types/user.type'
 
-const CreateModal = lazy(() => import('@/components/modal/CreateModal'))
 const EditModal = lazy(() => import('@/components/modal/EditModal'))
 const AcceptModal = lazy(() => import('@/components/modal/AcceptModal'))
 const DeleteModal = lazy(() => import('@/components/modal/DeleteModal'))
@@ -222,13 +221,6 @@ const UserManager = () => {
       <Pagination currentPage={data?.currentPage} totalPages={data?.totalPages} onPageChange={() => {}} />
 
       <Suspense fallback={<Loading size='large' className='fixed inset-0 z-[100] bg-black/10' />}>
-        {isCreateModalOpen && (
-          <CreateModal
-            isOpen={isCreateModalOpen}
-            onClose={() => setIsCreateModalOpen(false)}
-            onCreate={handleAddUser}
-          />
-        )}
         {isEditModalOpen && (
           <EditModal
             isOpen={isEditModalOpen}

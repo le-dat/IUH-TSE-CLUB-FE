@@ -9,14 +9,15 @@ import { EmailInput, TextInput } from '@/components/ui/form'
 import Modal from '@/components/ui/modal'
 import { IUser } from '@/types/user.type'
 
-interface EditModalProps {
+interface AcceptModalProps {
   isOpen: boolean
   onClose: () => void
   onSave: (data: any) => void
   initialData: IUser
 }
 
-const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, onSave, initialData }) => {
+const AcceptModal: React.FC<AcceptModalProps> = ({ isOpen, onClose, onSave, initialData }) => {
+  console.log('initialData:', initialData)
   const [isLoading, setIsLoading] = useState(false)
   const methods = useForm({
     defaultValues: {
@@ -49,7 +50,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, onSave, initialD
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title='Edit User'>
+    <Modal isOpen={isOpen} onClose={onClose} title='Approve Request'>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
           <TextInput
@@ -81,7 +82,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, onSave, initialD
                 isLoading ? 'cursor-not-allowed bg-blue-300' : 'bg-blue-500 hover:bg-blue-600'
               }`}
             >
-              {isLoading ? 'Saving...' : 'Save Changes'}
+              {isLoading ? 'Approve...' : 'Approve'}
             </Button>
           </div>
         </form>
@@ -90,4 +91,4 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, onSave, initialD
   )
 }
 
-export default EditModal
+export default AcceptModal

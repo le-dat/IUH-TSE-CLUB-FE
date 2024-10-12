@@ -19,7 +19,10 @@ const Account = () => {
   const { user } = useUserStore()
   const router = useRouter()
   const { setUser, setIsAuthenticated } = useUserStore()
-  const { mutateAsync, isPending } = useMutation({ mutationFn: authService.logout })
+  const { mutateAsync, isPending } = useMutation({
+    mutationKey: ['logout'],
+    mutationFn: authService.logout,
+  })
 
   const handleLogout = async () => {
     if (isPending) return

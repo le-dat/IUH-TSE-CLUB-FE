@@ -3,6 +3,7 @@
 import Image from 'next/image'
 
 import React, { forwardRef, useState } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 import HidePwIcon from '@/icons/auth/hide-pw.svg'
 import ShowPwIcon from '@/icons/auth/show-pw.svg'
@@ -32,7 +33,7 @@ const InputWrapper: React.FC<{
 )
 
 const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
-  ({ id, placeholder, name, errorMessage, ...props }, ref) => (
+  ({ id, placeholder, name, errorMessage, className = '', ...props }, ref) => (
     <InputWrapper id={id} errorMessage={errorMessage}>
       <input
         ref={ref}
@@ -41,7 +42,10 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
         name={name}
         aria-describedby={`${id}-description`}
         aria-invalid={!!errorMessage}
-        className='block h-full w-full rounded-lg px-4 py-3 text-base font-medium text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 disabled:bg-gray-100 disabled:text-gray-500'
+        className={twMerge(
+          'block h-full w-full rounded-lg px-4 py-3 text-base font-medium text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 disabled:bg-gray-100 disabled:text-gray-500',
+          className
+        )}
         {...props}
       />
     </InputWrapper>
@@ -50,7 +54,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 InputField.displayName = 'InputField'
 
 const InputFieldPw = forwardRef<HTMLInputElement, InputFieldProps>(
-  ({ id, placeholder, name, errorMessage, ...props }, ref) => {
+  ({ id, placeholder, name, errorMessage, className, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState<boolean>(false)
 
     const toggleShowPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -68,7 +72,10 @@ const InputFieldPw = forwardRef<HTMLInputElement, InputFieldProps>(
           name={name}
           aria-describedby={`${id}-description`}
           aria-invalid={!!errorMessage}
-          className='block h-full w-full rounded-lg px-4 py-3 pr-12 text-base font-medium text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 disabled:bg-gray-100 disabled:text-gray-500'
+          className={twMerge(
+            'block h-full w-full rounded-lg px-4 py-3 pr-12 text-base font-medium text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 disabled:bg-gray-100 disabled:text-gray-500',
+            className
+          )}
           {...props}
         />
         <button
